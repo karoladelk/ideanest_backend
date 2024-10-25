@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 class OrganizationMember {
   @Prop({ required: true })
@@ -19,6 +19,9 @@ export class Organization extends Document {
 
   @Prop({ required: true })
   description: string;
+
+  @Prop({ required: true }) // Store the owner's email
+  ownerEmail: string;
 
   @Prop([{ type: OrganizationMember }]) // Array of members with schema
   members: OrganizationMember[];
