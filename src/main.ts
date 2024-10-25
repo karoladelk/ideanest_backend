@@ -7,7 +7,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   console.log('Nest application has started successfully');  // Simple startup log
-  
+  app.enableCors();
   await app.listen(8080);
   app.use(cors({
     origin: 'http://localhost:3000',
