@@ -1,21 +1,21 @@
-# Use Node.js 20+ official image as the base
-FROM node:20-alpine
+# Use the official Node.js image.
+FROM node:18
 
-# Set the working directory inside the container
+# Create and change to the app directory.
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Copy application dependency manifests to the container image.
 COPY package*.json ./
+COPY tsconfig*.json ./
 
+# Install production dependencies.
+RUN npm install --production
 
-RUN npm install
-
+# Copy the application source code to the container image.
 COPY . .
 
-# Build the NestJS app (compile TypeScript to JavaScript)
+# Build the application.
 RUN npm run build
 
-EXPOSE 8080
-
-# Start the app using the production build
+# Run the web service on container startup.
 CMD ["npm", "run", "start:prod"]

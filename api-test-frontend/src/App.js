@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const API_URL = 'https://ideanest-backend-q1gb9jya3-karols-projects-936183dd.vercel.app/api';
+const API_URL = 'https://ideanest-backend.vercel.app/api';
 
 function App() {
   const [signupEmail, setSignupEmail] = useState('');
