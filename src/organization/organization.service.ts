@@ -50,21 +50,19 @@ export class OrganizationService {
     const org = await this.organizationModel.findById(id).exec();
     if (!org) throw new NotFoundException('Organization not found');
 
-    // Check if the user is the owner
     const isOwner = org.members[0].email === userEmail; // Assuming the first member is the owner
     if (!isOwner) throw new ForbiddenException('Access denied: Only the owner can update the organization');
 
-    // Update organization while keeping members intact
     org.name = name;
     org.description = description;
 
-    const updatedOrg = await org.save(); // Save the updated organization
+    const updatedOrg = await org.save(); 
 
     return {
         organization_id: updatedOrg._id,
         name: updatedOrg.name,
         description: updatedOrg.description,
-        members: updatedOrg.members, // Include members in the response if necessary
+        members: updatedOrg.members, 
     };
   }
 
@@ -88,9 +86,9 @@ export class OrganizationService {
     if (!isOwner) throw new ForbiddenException('Access denied: Only the owner can invite new members');
 
     organization.members.push({
-      name: newUserEmail.split('@')[0], // Dummy name from email
+      name: newUserEmail.split('@')[0],
       email: newUserEmail,
-      access_level: 'read', // Read-only access for invited users
+      access_level: 'read', 
     });
     await organization.save();
 
