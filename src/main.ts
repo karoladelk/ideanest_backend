@@ -11,6 +11,8 @@ async function bootstrap() {
   await app.listen(8080);
   app.use(cors({
     origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'],
   }));
   console.log(app.getHttpAdapter().getInstance()._router.stack.map(layer => layer.route));
 
