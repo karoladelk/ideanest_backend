@@ -1,29 +1,18 @@
+
+
+version: '3.8'
 services:
   app:
     build:
-      context: /Users/karoladelk/ideanest_be/backend
       dockerfile: Dockerfile
-    environment:
-      - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/my-db
-    depends_on:
-      mongo:
-        condition: service_started
-      redis:
-        condition: service_started
-    env_file:
-      - .env 
     ports:
       - "8080:8080"
-    volumes:
-      - /Users/karoladelk/ideanest_be/backend:/usr/src/app
+    depends_on:
+      - mongo
+    env_file:
+      - .env 
   mongo:
     image: mongo:latest
     ports:
       - "27017:27017"
-    volumes:
-      - /Users/karoladelk/ideanest_be/backend/mongo-data:/data/db
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
+

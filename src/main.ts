@@ -1,20 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as cors from 'cors';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
+export default async function handler(req, res) {
+  try {
+    const app = await NestFactory.create(AppModule);
+    app.enableCors(); 
 
-  console.log('Nest application has started successfully');  // Simple startup log
-  app.enableCors();
-  await app.listen(8080);
-  app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  }));
-  console.log(app.getHttpAdapter().getInstance()._router.stack.map(layer => layer.route));
+    await app.init();
 
+    const response = await app.getHttpAdapter().getInstance().handle(req, res);
+    return response;
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 }
-bootstrap();

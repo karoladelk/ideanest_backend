@@ -8,7 +8,7 @@ class OrganizationMember {
   @Prop({ required: true })
   email: string;
 
-  @Prop({ default: 'read' }) // Default access level
+  @Prop({ default: 'read' }) 
   access_level: string;
 }
 
@@ -20,10 +20,10 @@ export class Organization extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true }) // Store the owner's email
+  @Prop({ required: true }) 
   ownerEmail: string;
 
-  @Prop([{ type: OrganizationMember }]) // Array of members with schema
+  @Prop([{ type: OrganizationMember }])
   members: OrganizationMember[];
 }
 

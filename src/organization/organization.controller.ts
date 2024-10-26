@@ -1,10 +1,10 @@
 import { Controller, Post, Get, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { OrganizationService } from './organization.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { GetUser } from '../auth/get-user.decorator'; // Custom decorator to extract user info
+import { GetUser } from '../auth/get-user.decorator';
 
-@Controller('organization')
-@UseGuards(JwtAuthGuard) // Protect routes with JWT Auth Guard
+@Controller('api/organization')
+@UseGuards(JwtAuthGuard) 
 export class OrganizationController {
   constructor(private readonly organizationService: OrganizationService) {}
 
@@ -12,6 +12,7 @@ export class OrganizationController {
   async create(@GetUser() user: { email: string }, @Body() body: { name: string; description: string }) {
     return this.organizationService.create(user.email, body.name, body.description);
   }
+
 
   @Get(':id')
   async findById(@Param('id') id: string, @GetUser() user: { email: string }) {

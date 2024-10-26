@@ -10,9 +10,14 @@ export class OrganizationService {
   ) {}
 
   async create(ownerEmail: string, name: string, description: string) {
-    const newOrg = new this.organizationModel({ name, description, ownerEmail, members: [{ email: ownerEmail, access_level: 'owner' }] });
-    const savedOrg = await newOrg.save();
-    return { organization_id: savedOrg._id };
+    try {
+      const newOrg = new this.organizationModel({ name, description, ownerEmail, members: [{ email: ownerEmail, access_level: 'owner' }] });
+      const savedOrg = await newOrg.save();
+      return { organization_id: savedOrg._id };
+    }
+    catch (error) {
+      throw new Error('Error creating organization');
+    }
   }
 
   async findById(id: string, userEmail: string) {
@@ -50,7 +55,7 @@ export class OrganizationService {
     const org = await this.organizationModel.findById(id).exec();
     if (!org) throw new NotFoundException('Organization not found');
 
-    const isOwner = org.members[0].email === userEmail; // Assuming the first member is the owner
+    const isOwner = org.members[0].email === userEmail;
     if (!isOwner) throw new ForbiddenException('Access denied: Only the owner can update the organization');
 
     org.name = name;
